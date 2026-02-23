@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# Airflow
+logs/
+plugins/
+airflow-worker.pid
+airflow.cfg
+webserver_config.py
+
+# Data
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# Docker
+.docker/
+
+# Mac
+.DS_Store
