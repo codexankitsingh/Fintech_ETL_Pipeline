@@ -11,28 +11,8 @@ The entire environment is strictly containerized using Docker (via Colima on mac
 ### 2. Architecture & Tech Stack
 
 #### Architecture Flow
-```mermaid
-graph TD
-    A[Local Raw Data <br> transactions.csv] -->|Mounted Volume| B(Airflow Worker Container)
-    
-    subgraph Docker runtime via Colima
-        B -->|Pandas Transformation| C{process_data.py}
-        C -->|Outputs Processed Data| D[Local Processed Data <br> processed_transactions.csv]
-    end
-    
-    D -->|upload_to_gcs.py| E[(GCS Data Lake)]
-    E -->|load_to_bq.py <br> Append Mode| F[(BigQuery Data Warehouse)]
-    
-    G((Airflow Scheduler)) -.->|Triggers DAG Daily| B
-    
-    classDef storage fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef script fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef cloud fill:#ff9,stroke:#333,stroke-width:2px;
-    
-    class A,D storage;
-    class C script;
-    class E,F cloud;
-```
+
+![Architecture Flow Diagram](architecture.png)
 
 1. **Extract**: A local CSV financial dataset is mounted into the Airflow Worker container via Docker volumes.
 2. **Transform**: A Python/Pandas script cleans the data, filters for high-value transactions, and applies fraud-flagging logic.
